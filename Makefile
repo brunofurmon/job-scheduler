@@ -7,7 +7,7 @@ INTERACTIVE := $(shell [ -t 0 ] && echo i || echo d)
 # Returns date in YYYY-MM format
 DOCKER_DATE_TAG=$(shell date +%Y-%m)
 APPDIR = /usr/app
-SERVER_PORT=3100
+SERVER_PORT=3000
 PORT_DEBUG=5858
 CONTAINER_NAME=job-scheduler
 
@@ -27,8 +27,8 @@ build-docker-image:
 	@docker build --no-cache . --target ${DOCKER_STAGE} -t brunofurmon/${CONTAINER_NAME}:latest -t brunofurmon/${CONTAINER_NAME}:date-${DOCKER_DATE_TAG}
 
 start: check-if-image-is-built
-	@echo 'Running on http://localhost:$(PORT)'
-	@docker run -t${INTERACTIVE} --rm -v ${PWD}:${APPDIR}:delegated --env-file=.env -p $(SERVER_PORT):$(SERVER_PORT) -p $(PORT_DEBUG):5858 -e USER_PERM=$(shell id -u):$(shell id -g) --name ${CONTAINER_NAME} brunofurmon/${CONTAINER_NAME}:latest
+	@echo 'Running on http://localhost:$(SERVER_PORT)'
+	docker run -t${INTERACTIVE} --rm -v ${PWD}:${APPDIR}:delegated --env-file=.env -p $(SERVER_PORT):$(SERVER_PORT) -p $(PORT_DEBUG):5858 -e USER_PERM=$(shell id -u):$(shell id -g) --name ${CONTAINER_NAME} brunofurmon/${CONTAINER_NAME}:latest
 
 stop: ## Stops project
 	@docker stop ${CONTAINER_NAME}
