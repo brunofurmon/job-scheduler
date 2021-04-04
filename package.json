@@ -1,0 +1,57 @@
+{
+    "name": "job-scheduler",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:brunofurmon/job-scheduler.git",
+    "author": "Bruno Furtado <brunofurmon@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "setup": "yarn install && cp .env.example .env",
+        "run-dev": "nodemon --inspect ./src/index.js",
+        "postversion": "git push --follow-tags",
+        "lint": "eslint .",
+        "format": "prettier --write '**/*.{js,json,md}'",
+        "test": "jest --coverage --detectOpenHandles --passWithNoTests"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "pre-push": "yarn test"
+        }
+    },
+    "lint-staged": {
+        "*.js": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.json": [
+            "prettier --write"
+        ],
+        "*.md": [
+            "prettier --write"
+        ]
+    },
+    "devDependencies": {
+        "eslint": "^7.5.0",
+        "eslint-config-airbnb-base": "^14.2.0",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-prettier": "^3.1.4",
+        "husky": "^4.2.5",
+        "jest": "^26.1.0",
+        "lint-staged": "^10.2.11",
+        "nodemon": "^2.0.4",
+        "prettier": "^2.0.5"
+    },
+    "dependencies": {
+        "awilix": "^4.2.6",
+        "awilix-koa": "^4.0.0",
+        "dotenv": "^8.2.0",
+        "http-status": "^1.4.2",
+        "koa": "^2.13.0",
+        "koa-bodyparser": "^4.3.0",
+        "koa-compress": "^4.0.1",
+        "koa-helmet": "^5.2.0",
+        "koa-router": "^9.1.0"
+    }
+}
