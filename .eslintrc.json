@@ -2,10 +2,9 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es2020": true,
-        "jest/globals": true
+        "es2020": true
     },
-    "extends": ["airbnb-base", "prettier"],
+    "extends": ["airbnb-base", "prettier", "plugin:jest/recommended"],
     "parserOptions": {
         "ecmaVersion": 11
     },
