@@ -8,6 +8,8 @@ const healthcheckControllerBuilder = require('./application/controllers/healthch
 const loggerBuilder = require('./infrastructure/logger');
 const router = require('./application/router');
 
+const messageBusBuilder = require('./infrastructure/messaging/inMemoryMessageBus');
+
 const container = createContainer().register({
     logger: asFunction(loggerBuilder).singleton(),
     server: asFunction(serverBuilder).singleton(),
@@ -15,7 +17,9 @@ const container = createContainer().register({
     router: asFunction(router).singleton(),
     worker: asFunction(workerBuilder).singleton(),
 
-    healthcheckController: asFunction(healthcheckControllerBuilder).singleton()
+    healthcheckController: asFunction(healthcheckControllerBuilder).singleton(),
+
+    messageBus: asFunction(messageBusBuilder).singleton()
 });
 
 module.exports = container;
