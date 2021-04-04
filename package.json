@@ -47,7 +47,7 @@
         "awilix": "^4.2.6",
         "awilix-koa": "^4.0.0",
         "dotenv": "^8.2.0",
-        "http-status": "^1.4.2",
+        "http-status": "^1.5.0",
         "koa": "^2.13.0",
         "koa-bodyparser": "^4.3.0",
         "koa-compress": "^4.0.1",

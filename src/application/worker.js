@@ -1,9 +1,9 @@
-const workerBuilder = () => ({
-    start: () => {
-        console.debug('Worker is built');
-    }
-});
+module.exports = ({ logger }) => {
+    const start = () => {
+        logger.debug('Worker is built');
+    };
 
-module.exports = {
-    workerBuilder
+    return {
+        start
+    };
 };
