@@ -24,7 +24,9 @@ describe('Infrastructure -> inMemoryMessageBus', () => {
 
             expect(num).toEqual(1);
         });
+    });
 
+    describe('subscribe', () => {
         it('Should run multiple subscribers', () => {
             const { publish, subscribe } = messageBusBuilder();
             let num = 0;
@@ -41,6 +43,4 @@ describe('Infrastructure -> inMemoryMessageBus', () => {
             expect(num).toEqual(2);
         });
     });
-
-    describe('subscribe', () => {});
 });
