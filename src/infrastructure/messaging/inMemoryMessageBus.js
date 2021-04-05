@@ -3,7 +3,7 @@ module.exports = () => {
     // "topic-name": [func, func, ... func]
     const topics = {};
 
-    const subscribe = (topicName, callback) => {
+    const publish = (topicName, callback) => {
         if (!(topicName in topics)) {
             topics[topicName] = [];
         }
@@ -22,6 +22,6 @@ module.exports = () => {
 
     return {
         send,
-        subscribe
+        publish
     };
 };
