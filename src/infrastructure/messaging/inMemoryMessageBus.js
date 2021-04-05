@@ -3,14 +3,14 @@ module.exports = () => {
     // "topic-name": [func, func, ... func]
     const topics = {};
 
-    const publish = (topicName, callback) => {
+    const subscribe = (topicName, callback) => {
         if (!(topicName in topics)) {
             topics[topicName] = [];
         }
         topics[topicName].push(callback);
     };
 
-    const send = (topicName, payload) => {
+    const publish = (topicName, payload) => {
         // discard if no one was listening
         if (!(topicName in topics)) {
             return;
@@ -21,7 +21,7 @@ module.exports = () => {
     };
 
     return {
-        send,
-        publish
+        publish,
+        subscribe
     };
 };

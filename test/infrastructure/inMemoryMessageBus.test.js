@@ -3,16 +3,16 @@ const messageBusBuilder = require('../../src/infrastructure/messaging/inMemoryMe
 describe('Infrastructure -> inMemoryMessageBus', () => {
     describe('send', () => {
         it('Should ignore message when there are no subscribers to topic', () => {
-            const { send } = messageBusBuilder();
+            const { publish } = messageBusBuilder();
 
-            const promise = send('unknown topic', {
+            const promise = publish('unknown topic', {
                 question: 'Anyone listening?'
             });
             expect(promise).toEqual(undefined);
         });
 
-        it('Should send a message to a populated channel', () => {
-            const { send, subscribe } = messageBusBuilder();
+        it('Should publish a message to a populated channel', () => {
+            const { publish, subscribe } = messageBusBuilder();
             let num = 0;
             const callback = () => {
                 num = 1;
@@ -20,13 +20,13 @@ describe('Infrastructure -> inMemoryMessageBus', () => {
             const topicName = 'topic1';
             subscribe(topicName, callback);
 
-            send(topicName, null);
+            publish(topicName, null);
 
             expect(num).toEqual(1);
         });
 
         it('Should run multiple subscribers', () => {
-            const { send, subscribe } = messageBusBuilder();
+            const { publish, subscribe } = messageBusBuilder();
             let num = 0;
             const callback = () => {
                 num += 1;
@@ -36,7 +36,7 @@ describe('Infrastructure -> inMemoryMessageBus', () => {
             subscribe(topicName, callback);
             subscribe(topicName, callback);
 
-            send(topicName, null);
+            publish(topicName, null);
 
             expect(num).toEqual(2);
         });
