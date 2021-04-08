@@ -18,11 +18,11 @@ const heavyControllerBuilder = require('./application/controllers/heavyControlle
 
 const container = createContainer().register({
     logger: asFunction(loggerBuilder).singleton(),
-    server: asFunction(serverBuilder).singleton(),
 
-    router: asFunction(router).singleton(),
+    server: asFunction(serverBuilder).singleton(),
     worker: asFunction(workerBuilder).singleton(),
 
+    router: asFunction(router).singleton(),
     healthcheckController: asFunction(healthcheckControllerBuilder).singleton(),
     heavyController: asFunction(heavyControllerBuilder).singleton(),
 

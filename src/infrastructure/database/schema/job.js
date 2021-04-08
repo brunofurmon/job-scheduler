@@ -36,9 +36,11 @@ module.exports = class {
                 type: Date,
                 default: new Date()
             },
-            updated_at: {
-                type: Date
-            },
+            updated_at: [
+                {
+                    type: Date
+                }
+            ],
             completed_at: {
                 type: Date
             }

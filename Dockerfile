@@ -14,7 +14,7 @@ FROM base as development
 
 FROM base as production
     ENV NODE_ENV production
-
+    ENV BIN_PATH ${BIN_PATH}
     ENV TINI_VERSION v0.19.0
     ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
     RUN chmod +x /tini
@@ -29,4 +29,4 @@ FROM base as production
 
     USER app
 
-    CMD ["node", "index.js"]
+    CMD $BIN_PATH

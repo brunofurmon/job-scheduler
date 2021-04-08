@@ -17,7 +17,11 @@ module.exports = () => {
         }
 
         const callbacks = topics[topicName];
-        Promise.all(callbacks.map(callback => callback(payload)));
+        const promises =
+            callbacks.length > 0
+                ? callbacks.map(callback => callback(payload))
+                : [];
+        Promise.all(promises);
     };
 
     return {

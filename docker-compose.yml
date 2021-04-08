@@ -1,0 +1,32 @@
+version: "3"
+services:
+  app:
+    container_name: app
+    restart: always
+    build:
+        context: .
+        target: production
+    ports:
+      - "3000:3000"
+    environment:
+        - BIN_PATH=./src/server.js
+    links:
+      - mongo
+  worker:
+    container_name: worker
+    restart: always
+    build:
+        context: .
+        target: production
+    environment:
+        - BIN_PATH=./src/worker.js
+    links:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ~/docker
+    ports:
+      - "27017:27017"

@@ -1,7 +1,7 @@
 const heavyJobInfo = require('../jobs/heavyJobInfo');
 const { heavyCpuInMs } = require('../business/heavy');
 
-const handleJob = async (payload, { logger, jobScheduler }) => {
+const handleJob = (payload, { logger, jobScheduler }) => {
     const { messageData } = payload;
     const { jobType, jobId } = messageData;
 
@@ -10,8 +10,16 @@ const handleJob = async (payload, { logger, jobScheduler }) => {
     switch (jobType) {
         case 'job::heavy': {
             jobScheduler.config(heavyJobInfo);
+
+            jobScheduler.startJob();
             const { timeMs } = payload;
-            heavyCpuInMs(timeMs);
+            try {
+                heavyCpuInMs(timeMs, { logger, jobScheduler });
+            } catch (error) {
+                logger.error(error);
+                jobScheduler.failJob();
+            }
+            jobScheduler.completeJob();
             break;
         }
         default:

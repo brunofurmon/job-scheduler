@@ -37,14 +37,14 @@ module.exports = ({ jobRepository }) => {
         const jobKey = prefixedKey(jobId);
 
         const job = {
-            jobId,
-            jobKey,
-            jobType: `${prefix}`,
+            job_id: jobId,
+            job_key: jobKey,
+            job_type: `${prefix}`,
             status: jobStateEnum.QUEUED,
             data: jobInitialState,
-            createdAt: new Date().toISOString(),
-            updatedAt: [],
-            completedAt: null
+            created_at: new Date().toISOString(),
+            updated_at: [],
+            completed_at: null
         };
 
         jobRepository(job).save();
@@ -54,16 +54,16 @@ module.exports = ({ jobRepository }) => {
         return job;
     };
 
-    const getJob = async id => {
+    const getJob = id => {
         assertInitialized();
 
         return jobRepository.byJobKey(prefixedKey(id));
     };
 
-    const startJob = async id => {
+    const startJob = id => {
         assertInitialized();
 
-        const job = await getJob(id);
+        const job = getJob(id);
 
         if (!job) {
             return;
@@ -75,10 +75,10 @@ module.exports = ({ jobRepository }) => {
     };
 
     // TEST
-    const cancelJob = async id => {
+    const cancelJob = id => {
         assertInitialized();
 
-        const job = await getJob(id);
+        const job = getJob(id);
 
         if (!job) {
             return;
@@ -89,10 +89,10 @@ module.exports = ({ jobRepository }) => {
         job.save();
     };
 
-    const isCanceled = async id => {
+    const isCanceled = id => {
         assertInitialized();
 
-        const job = await getJob(id);
+        const job = getJob(id);
 
         if (!job) {
             return false;
@@ -101,7 +101,7 @@ module.exports = ({ jobRepository }) => {
         return job.status === jobStateEnum.CANCELED;
     };
 
-    const updateJob = async job => {
+    const updateJob = job => {
         assertInitialized();
 
         if (!job) {
@@ -109,13 +109,13 @@ module.exports = ({ jobRepository }) => {
         }
         job.updatedAt.push(new Date().toISOString());
 
-        await jobRepository.update(job.jobKey, job);
+        jobRepository.update(job.jobKey, job);
     };
 
-    const completeJob = async id => {
+    const completeJob = id => {
         assertInitialized();
 
-        const job = await getJob(id);
+        const job = getJob(id);
 
         if (!job) {
             return;
@@ -127,10 +127,10 @@ module.exports = ({ jobRepository }) => {
         job.save();
     };
 
-    const failJob = async id => {
+    const failJob = id => {
         assertInitialized();
 
-        const job = await getJob(id);
+        const job = getJob(id);
 
         if (!job) {
             return;

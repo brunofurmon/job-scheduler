@@ -8,6 +8,8 @@
     "scripts": {
         "setup": "yarn install && cp .env.example .env",
         "run-dev": "nodemon --inspect ./src/index.js",
+        "run-server": "node ./src/server.js",
+        "run-worker": "node ./src/worker.js",
         "postversion": "git push --follow-tags",
         "lint": "eslint .",
         "format": "prettier --write '**/*.{js,json,md}'",

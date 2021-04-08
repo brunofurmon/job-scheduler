@@ -5,7 +5,6 @@ const { dispatchEvents } = require('../domain/jobHandlers/index');
 module.exports = ({ logger, messageBus }) => ({
     start: async () => {
         const { JOB_TOPIC } = process.env;
-
         try {
             logger.debug(`Initializing Reader on topic '${JOB_TOPIC}'`);
             messageBus.subscribe(JOB_TOPIC, dispatchEvents);
