@@ -5,10 +5,10 @@ describe('Infrastructure -> inMemoryMessageBus', () => {
         it('Should ignore message when there are no subscribers to topic', () => {
             const { publish } = messageBusBuilder();
 
-            const promise = publish('unknown topic', {
+            const result = publish('unknown topic', {
                 question: 'Anyone listening?'
             });
-            expect(promise).toEqual(undefined);
+            expect(result).toEqual(undefined);
         });
 
         it('Should publish a message to a populated channel', () => {
