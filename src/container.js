@@ -13,6 +13,7 @@ const router = require('./application/router');
 const messageBusBuilder = require('./infrastructure/messaging/inMemoryMessageBus');
 
 const jobRepositoryBuilder = require('./infrastructure/database/repository/jobs/mongoRepository');
+const jobSchedulerBuilder = require('./infrastructure/jobScheduler');
 
 const container = createContainer().register({
     logger: asFunction(loggerBuilder).singleton(),
@@ -24,8 +25,10 @@ const container = createContainer().register({
     healthcheckController: asFunction(healthcheckControllerBuilder).singleton(),
 
     messageBus: asFunction(messageBusBuilder).singleton(),
+
     mongoose: asFunction(mongooseBuilder).singleton(),
-    jobRepository: asFunction(jobRepositoryBuilder).singleton
+    jobRepository: asFunction(jobRepositoryBuilder).singleton,
+    jobScheduler: asFunction(jobSchedulerBuilder).singleton()
 });
 
 module.exports = container;
