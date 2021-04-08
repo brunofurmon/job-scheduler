@@ -1,6 +1,6 @@
-const { OK } = require('http-status');
+const { OK, INTERNAL_SERVER_ERROR } = require('http-status');
 
-module.exports = () => {
+module.exports = ({ mongoose, logger }) => {
     const live = async ctx => {
         ctx.status = OK;
         ctx.body = {
@@ -9,9 +9,11 @@ module.exports = () => {
     };
 
     const ready = async ctx => {
-        ctx.status = OK;
+        const mongoIsUp = mongoose.connection.readyState > 0;
+        logger.error(mongoIsUp);
+        ctx.status = mongoIsUp ? OK : INTERNAL_SERVER_ERROR;
         ctx.body = {
-            status: 'Looking good ;)'
+            status: mongoIsUp ? 'Looking good ;)' : 'Check mongo connection :('
         };
     };
 
