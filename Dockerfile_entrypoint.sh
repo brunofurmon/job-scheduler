@@ -6,4 +6,4 @@ if [ ! -d node_modules ]; then
     test -z "$USER_PERM" || chown -R $USER_PERM node_modules
 fi
 
-yarn run-dev
+node $BIN_PATH

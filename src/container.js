@@ -10,7 +10,7 @@ const healthcheckControllerBuilder = require('./application/controllers/healthch
 const loggerBuilder = require('./infrastructure/logger');
 const router = require('./application/router');
 
-const messageBusBuilder = require('./infrastructure/messaging/inMemoryMessageBus');
+const messageBusBuilder = require('./infrastructure/messaging/nsqMessageBus');
 
 const jobRepositoryBuilder = require('./infrastructure/database/repository/jobs/mongoRepository');
 const jobSchedulerBuilder = require('./infrastructure/jobScheduler');

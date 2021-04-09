@@ -58,6 +58,7 @@
         "koa-router": "^9.1.0",
         "mongoose": "^5.12.3",
         "mongoose-class-wrapper": "^0.9.0",
+        "nsqjs": "^0.12.1",
         "uuid": "^8.3.2"
     }
 }

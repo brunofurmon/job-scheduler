@@ -1,32 +1,56 @@
-version: "3"
+version: '3'
 services:
-  app:
-    container_name: app
-    restart: always
-    build:
-        context: .
-        target: production
-    ports:
-      - "3000:3000"
-    environment:
-        - BIN_PATH=./src/server.js
-    links:
-      - mongo
-  worker:
-    container_name: worker
-    restart: always
-    build:
-        context: .
-        target: production
-    environment:
-        - BIN_PATH=./src/worker.js
-    links:
-      - mongo
+    app:
+        container_name: app
+        restart: always
+        build:
+            context: .
+            target: production
+        ports:
+            - '3000:3000'
+        environment:
+            - BIN_PATH=./src/server.js
+        links:
+            - mongo
+    worker:
+        container_name: worker
+        restart: always
+        build:
+            context: .
+            target: production
+        environment:
+            - BIN_PATH=./src/worker.js
+        links:
+            - mongo
 
-  mongo:
-    container_name: mongo
-    image: mongo
-    volumes:
-      - ~/docker
-    ports:
-      - "27017:27017"
+    mongo:
+        container_name: mongo
+        image: mongo
+        volumes:
+            - ~/docker
+        ports:
+            - '27017:27017'
+    nsqlookupd:
+        container_name: nsqlookupd
+        image: nsqio/nsq
+        command: /nsqlookupd
+        ports:
+            - '4160'
+            - '4161'
+    nsqd:
+        container_name: nsqd
+        image: nsqio/nsq
+        command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+        depends_on:
+            - nsqlookupd
+        ports:
+            - '4150'
+            - '4151'
+    nsqadmin:
+        container_name: nsqadmin
+        image: nsqio/nsq
+        command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+        depends_on:
+            - nsqlookupd
+        ports:
+            - '4171'
