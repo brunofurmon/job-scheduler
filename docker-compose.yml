@@ -10,6 +10,8 @@ services:
             - '3000:3000'
         environment:
             - BIN_PATH=./src/server.js
+        env_file:
+            - .env
         links:
             - mongo
     worker:
@@ -20,6 +22,8 @@ services:
             target: production
         environment:
             - BIN_PATH=./src/worker.js
+        env_file:
+            - .env
         links:
             - mongo
 
