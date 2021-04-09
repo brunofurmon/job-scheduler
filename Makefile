@@ -18,7 +18,7 @@ endif
 
 check-if-image-is-built:
 ifeq ($(shell docker images -q brunofurmon/${CONTAINER_NAME}:date-${DOCKER_DATE_TAG} 2> /dev/null | wc -l | bc),0)
-	@echo "Docker image not found for this month/year, building...";
+	@echo "Docker image not found for this month/year, building..."
 	@make build-docker-image
 endif
 
