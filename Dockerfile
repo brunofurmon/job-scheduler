@@ -22,11 +22,10 @@ FROM base as production
 
     RUN addgroup --gid 1001 --system app && \
         adduser --uid 1001 --system --gid 1001 app
-
     COPY . $APPDIR
 
     RUN yarn install
 
     USER app
 
-    CMD $BIN_PATH
+    CMD node $BIN_PATH
