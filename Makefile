@@ -28,15 +28,15 @@ build-docker-image:
 
 start: check-if-image-is-built
 	@echo 'Running on http://localhost:$(SERVER_PORT)'
-	docker run -t${INTERACTIVE} --rm -v ${PWD}:${APPDIR}:delegated --env-file=.env -p $(SERVER_PORT):$(SERVER_PORT) -p $(PORT_DEBUG):5858 -e USER_PERM=$(shell id -u):$(shell id -g) --name ${CONTAINER_NAME} -e BIN_PATH="src/index.js" brunofurmon/${CONTAINER_NAME}:latest
+	@docker run -t${INTERACTIVE} --rm -v ${PWD}:${APPDIR}:delegated --env-file=.env -p $(SERVER_PORT):$(SERVER_PORT) -p $(PORT_DEBUG):5858 -e USER_PERM=$(shell id -u):$(shell id -g) --name ${CONTAINER_NAME} -e BIN_PATH="src/index.js" brunofurmon/${CONTAINER_NAME}:latest
 
 start-server: check-if-image-is-built
 	@echo 'Running server'
-	docker run -t${INTERACTIVE} --rm -v ${PWD}:${APPDIR}:delegated --env-file=.env -p $(SERVER_PORT):$(SERVER_PORT) -p $(PORT_DEBUG):5858 -e USER_PERM=$(shell id -u):$(shell id -g) --name ${CONTAINER_NAME}-server -e BIN_PATH="src/server.js"  brunofurmon/${CONTAINER_NAME}:latest
+	@docker run -t${INTERACTIVE} --rm -v ${PWD}:${APPDIR}:delegated --env-file=.env -p $(SERVER_PORT):$(SERVER_PORT) -p $(PORT_DEBUG):5858 -e USER_PERM=$(shell id -u):$(shell id -g) --name ${CONTAINER_NAME}-server -e BIN_PATH="src/server.js"  brunofurmon/${CONTAINER_NAME}:latest
 
 start-worker: check-if-image-is-built
 	@echo 'Running worker'
-	docker run -t${INTERACTIVE} --rm -v ${PWD}:${APPDIR}:delegated --env-file=.env -p $(SERVER_PORT):$(SERVER_PORT) -p $(PORT_DEBUG):5858 -e USER_PERM=$(shell id -u):$(shell id -g) --name ${CONTAINER_NAME}-server -e BIN_PATH="src/worker.js"  brunofurmon/${CONTAINER_NAME}:latest
+	@docker run -t${INTERACTIVE} --rm -v ${PWD}:${APPDIR}:delegated --env-file=.env -p $(SERVER_PORT):$(SERVER_PORT) -p $(PORT_DEBUG):5858 -e USER_PERM=$(shell id -u):$(shell id -g) --name ${CONTAINER_NAME}-server -e BIN_PATH="src/worker.js"  brunofurmon/${CONTAINER_NAME}:latest
 
 stop: ## Stops project
 	@docker stop ${CONTAINER_NAME}
