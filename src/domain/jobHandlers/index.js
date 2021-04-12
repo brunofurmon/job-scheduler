@@ -1,5 +1,5 @@
 const heavyJobInfo = require('../jobs/heavyJobInfo');
-const { heavyCpuInMs } = require('../business/heavy');
+const { performHeavyTaskInMs } = require('../business/heavy');
 
 const handleJob = (messageData, { logger, jobScheduler }) => {
     const { jobType, jobId } = messageData;
@@ -13,7 +13,7 @@ const handleJob = (messageData, { logger, jobScheduler }) => {
             jobScheduler.startJob();
             const { timeMs } = messageData;
             try {
-                heavyCpuInMs(timeMs, { logger, jobScheduler });
+                performHeavyTaskInMs(timeMs, { logger, jobScheduler });
             } catch (error) {
                 logger.error(error);
                 jobScheduler.failJob();

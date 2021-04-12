@@ -1,4 +1,4 @@
-function heavyCpuInMs(ms) {
+function performHeavyTaskInMs(ms) {
     let shouldRun = true;
     const now = new Date().getTime();
 
@@ -12,5 +12,5 @@ function heavyCpuInMs(ms) {
 }
 
 module.exports = {
-    heavyCpuInMs
+    performHeavyTaskInMs
 };
