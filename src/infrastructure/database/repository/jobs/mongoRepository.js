@@ -3,9 +3,9 @@ const loadClass = require('mongoose-class-wrapper');
 const JobSchemaV1 = require('../../schema/job');
 
 module.exports = ({ mongoose }) => {
-    const jobControlSchemaV1 = new JobSchemaV1(mongoose);
+    const jobSchemaV1 = new JobSchemaV1(mongoose);
 
-    jobControlSchemaV1.schema(mongoose).pre('save', function presave(next) {
+    jobSchemaV1.schema(mongoose).pre('save', function presave(next) {
         this.updated_at = new Date();
         next();
     });
@@ -16,7 +16,7 @@ module.exports = ({ mongoose }) => {
         }
     }
 
-    jobControlSchemaV1.schema(mongoose).plugin(loadClass, JobSchemaV1Model);
+    jobSchemaV1.schema(mongoose).plugin(loadClass, JobSchemaV1Model);
 
-    return mongoose.model('jobControl', jobControlSchemaV1.schema(mongoose));
+    return mongoose.model('job', jobSchemaV1.schema(mongoose));
 };

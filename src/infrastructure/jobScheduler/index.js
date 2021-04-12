@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { v4: uuidv4 } = require('uuid');
 
 const { JOB_TOPIC } = process.env;
@@ -31,7 +32,7 @@ module.exports = ({ jobRepository }) => {
 
     const prefixedKey = id => `${prefix}::${id}`;
 
-    const queueJob = ({ messageBus }) => {
+    const queueJob = async ({ messageBus }) => {
         assertInitialized();
         const jobId = uuidv4();
         const jobKey = prefixedKey(jobId);
@@ -47,23 +48,39 @@ module.exports = ({ jobRepository }) => {
             completed_at: null
         };
 
-        jobRepository(job).save();
+        await jobRepository(job).save();
 
-        messageBus.publish(JOB_TOPIC, job);
+        const writer = messageBus.writer();
+        writer.publish(JOB_TOPIC, job);
 
         return job;
     };
 
-    const getJob = id => {
+    const getJob = async id => {
         assertInitialized();
 
-        return jobRepository.byJobKey(prefixedKey(id));
+        const jobModel = await jobRepository.byJobKey(prefixedKey(id));
+
+        if (!jobModel) {
+            return null;
+        }
+
+        return {
+            job_id: jobModel.job_id,
+            job_key: jobModel.job_key,
+            job_type: jobModel.job_type,
+            created_at: jobModel.created_at,
+            updated_at: jobModel.updated_at,
+            status: jobModel.status,
+            data: jobModel.data,
+            completed_at: jobModel.completed_at
+        };
     };
 
-    const startJob = id => {
+    const startJob = async id => {
         assertInitialized();
 
-        const job = getJob(id);
+        const job = await getJob(id);
 
         if (!job) {
             return;
@@ -75,10 +92,10 @@ module.exports = ({ jobRepository }) => {
     };
 
     // TEST
-    const cancelJob = id => {
+    const cancelJob = async id => {
         assertInitialized();
 
-        const job = getJob(id);
+        const job = await getJob(id);
 
         if (!job) {
             return;
@@ -89,10 +106,10 @@ module.exports = ({ jobRepository }) => {
         job.save();
     };
 
-    const isCanceled = id => {
+    const isCanceled = async id => {
         assertInitialized();
 
-        const job = getJob(id);
+        const job = await getJob(id);
 
         if (!job) {
             return false;
@@ -112,10 +129,10 @@ module.exports = ({ jobRepository }) => {
         jobRepository.update(job.jobKey, job);
     };
 
-    const completeJob = id => {
+    const completeJob = async id => {
         assertInitialized();
 
-        const job = getJob(id);
+        const job = await getJob(id);
 
         if (!job) {
             return;
@@ -127,10 +144,10 @@ module.exports = ({ jobRepository }) => {
         job.save();
     };
 
-    const failJob = id => {
+    const failJob = async id => {
         assertInitialized();
 
-        const job = getJob(id);
+        const job = await getJob(id);
 
         if (!job) {
             return;

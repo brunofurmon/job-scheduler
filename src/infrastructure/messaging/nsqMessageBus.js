@@ -10,7 +10,8 @@ module.exports = ({ logger }) => {
             snappy: false
         };
 
-        const nsqWriter = new Writer(NSQ_WRITER_ADDR, 4150, writerOptions);
+        const [writerHost, writerPort] = NSQ_WRITER_ADDR.split(':');
+        const nsqWriter = new Writer(writerHost, writerPort, writerOptions);
 
         if (!nsqWriter.connected) {
             nsqWriter.connect();
