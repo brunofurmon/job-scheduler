@@ -2,19 +2,19 @@ const { createContainer, asFunction } = require('awilix');
 
 const mongooseBuilder = require('./infrastructure/database/mongoose');
 
-const serverBuilder = require('./application/server');
-const workerBuilder = require('./application/worker');
+const serverBuilder = require('./application/server/server');
+const workerBuilder = require('./application/worker/worker');
 
-const healthcheckControllerBuilder = require('./application/controllers/healthcheckController');
+const healthcheckControllerBuilder = require('./application/server/controllers/healthcheckController');
+const heavyControllerBuilder = require('./application/server/controllers/heavyController');
 
 const loggerBuilder = require('./infrastructure/logger');
-const router = require('./application/router');
+const router = require('./application/server/router');
 
 const messageBusBuilder = require('./infrastructure/messaging/nsqMessageBus');
 
 const jobRepositoryBuilder = require('./infrastructure/database/repository/jobs/mongoRepository');
 const jobSchedulerBuilder = require('./infrastructure/jobScheduler');
-const heavyControllerBuilder = require('./application/controllers/heavyController');
 
 const container = createContainer().register({
     logger: asFunction(loggerBuilder).singleton(),

@@ -1,5 +1,5 @@
 const { OK, ACCEPTED, NOT_FOUND } = require('http-status');
-const heavyJobInfo = require('../../domain/jobs/heavyJobInfo');
+const heavyJobInfo = require('../../../domain/jobs/heavyJobInfo');
 
 module.exports = ({ logger, jobScheduler, messageBus }) => {
     const publishHeavyJob = async ctx => {

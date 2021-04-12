@@ -1,4 +1,4 @@
-const container = require('./container');
+const container = require('../../container');
 
 const worker = container.resolve('worker');
 

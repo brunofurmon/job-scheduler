@@ -9,7 +9,7 @@ services:
         ports:
             - '3000:3000'
         environment:
-            - BIN_PATH=./src/server.js
+            - BIN_PATH=./src/application/server
         env_file:
             - .env
         links:
@@ -21,7 +21,7 @@ services:
             context: .
             target: production
         environment:
-            - BIN_PATH=./src/worker.js
+            - BIN_PATH=./src/application/worker
         env_file:
             - .env
         links:

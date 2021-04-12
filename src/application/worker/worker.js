@@ -1,6 +1,6 @@
 const { inspect } = require('util');
 
-const { handleJob } = require('../domain/jobHandlers/index');
+const { handleJob } = require('../../domain/jobHandlers/index');
 
 module.exports = ({ logger, messageBus, jobScheduler, jobRepository }) => {
     const start = () => {
@@ -14,7 +14,7 @@ module.exports = ({ logger, messageBus, jobScheduler, jobRepository }) => {
             logger.info('Worker started');
 
             reader.on('message', async msg => {
-                const messageContent = msg.json();
+                const messageData = msg.json();
 
                 try {
                     const touch = () => {
@@ -28,7 +28,7 @@ module.exports = ({ logger, messageBus, jobScheduler, jobRepository }) => {
                         msg.timeUntilTimeout() - 1000
                     );
 
-                    handleJob(JOB_TOPIC, messageContent, {
+                    handleJob(messageData, {
                         logger,
                         jobScheduler,
                         jobRepository
