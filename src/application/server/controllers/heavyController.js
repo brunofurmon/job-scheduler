@@ -3,7 +3,11 @@ const heavyJobInfo = require('../../../domain/jobs/heavyJobInfo');
 
 module.exports = ({ logger, jobScheduler, messageBus }) => {
     const publishHeavyJob = async ctx => {
-        jobScheduler.config(heavyJobInfo);
+        const { timeMs } = ctx.request.body;
+
+        const { initialState, jobPrefix } = heavyJobInfo;
+        initialState.timeMs = timeMs;
+        jobScheduler.config({ initialState, jobPrefix });
 
         const job = await jobScheduler.queueJob({ messageBus });
 

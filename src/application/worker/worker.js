@@ -3,7 +3,7 @@ const { inspect } = require('util');
 const { handleJob } = require('../../domain/jobHandlers/index');
 
 module.exports = ({ logger, messageBus, jobScheduler, jobRepository }) => {
-    const start = () => {
+    const start = async () => {
         const { JOB_TOPIC } = process.env;
 
         try {
@@ -28,7 +28,7 @@ module.exports = ({ logger, messageBus, jobScheduler, jobRepository }) => {
                         msg.timeUntilTimeout() - 1000
                     );
 
-                    handleJob(messageData, {
+                    await handleJob(messageData, {
                         logger,
                         jobScheduler,
                         jobRepository

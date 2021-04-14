@@ -44,7 +44,10 @@ module.exports = ({ logger }) => {
             maxAttempts: 3
         };
 
-        return new Reader(topic, channel, readerOptions);
+        const internalReader = new Reader(topic, channel, readerOptions);
+        internalReader.connect();
+
+        return internalReader;
     };
 
     return {

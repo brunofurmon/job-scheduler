@@ -87,8 +87,7 @@ module.exports = ({ jobRepository }) => {
         }
 
         job.status = jobStateEnum.RUNNING;
-
-        job.save();
+        await jobRepository.update({ job_key: job.job_key }, job);
     };
 
     // TEST
@@ -103,7 +102,7 @@ module.exports = ({ jobRepository }) => {
 
         job.status = jobStateEnum.CANCELED;
 
-        job.save();
+        await jobRepository.update({ job_key: job.job_key }, job);
     };
 
     const isCanceled = async id => {
@@ -118,15 +117,16 @@ module.exports = ({ jobRepository }) => {
         return job.status === jobStateEnum.CANCELED;
     };
 
-    const updateJob = job => {
+    const updateJob = async job => {
         assertInitialized();
 
-        if (!job) {
+        const existingJob = await getJob(job.job_id);
+
+        if (!existingJob) {
             return;
         }
-        job.updatedAt.push(new Date().toISOString());
 
-        jobRepository.update(job.jobKey, job);
+        await jobRepository.update({ job_key: job.job_key }, job);
     };
 
     const completeJob = async id => {
@@ -141,7 +141,7 @@ module.exports = ({ jobRepository }) => {
         job.status = jobStateEnum.COMPLETED;
         job.completedAt = new Date().toISOString();
 
-        job.save();
+        await jobRepository.update({ job_key: job.job_key }, job);
     };
 
     const failJob = async id => {
@@ -156,7 +156,7 @@ module.exports = ({ jobRepository }) => {
         job.status = jobStateEnum.FAILED;
         job.completedAt = new Date().toISOString();
 
-        job.save();
+        await jobRepository.update({ job_key: job.job_key }, job);
     };
 
     return {
