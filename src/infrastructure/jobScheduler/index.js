@@ -80,29 +80,28 @@ module.exports = ({ jobRepository }) => {
     const startJob = async id => {
         assertInitialized();
 
-        const job = await getJob(id);
+        const job = await jobRepository.byJobKey(prefixedKey(id));
 
         if (!job) {
             return;
         }
 
         job.status = jobStateEnum.RUNNING;
-        await jobRepository.update({ job_key: job.job_key }, job);
+        await job.save();
     };
 
     // TEST
     const cancelJob = async id => {
         assertInitialized();
 
-        const job = await getJob(id);
+        const job = await jobRepository.byJobKey(prefixedKey(id));
 
         if (!job) {
             return;
         }
 
         job.status = jobStateEnum.CANCELED;
-
-        await jobRepository.update({ job_key: job.job_key }, job);
+        await job.save();
     };
 
     const isCanceled = async id => {
@@ -120,19 +119,20 @@ module.exports = ({ jobRepository }) => {
     const updateJob = async job => {
         assertInitialized();
 
-        const existingJob = await getJob(job.job_id);
+        let existingJob = await jobRepository.byJobKey(prefixedKey(job.job_id));
 
-        if (!existingJob) {
+        if (!job) {
             return;
         }
 
-        await jobRepository.update({ job_key: job.job_key }, job);
+        existingJob = { ...existingJob, ...job };
+        await existingJob.save();
     };
 
     const completeJob = async id => {
         assertInitialized();
 
-        const job = await getJob(id);
+        const job = await jobRepository.byJobKey(prefixedKey(id));
 
         if (!job) {
             return;
@@ -141,13 +141,13 @@ module.exports = ({ jobRepository }) => {
         job.status = jobStateEnum.COMPLETED;
         job.completedAt = new Date().toISOString();
 
-        await jobRepository.update({ job_key: job.job_key }, job);
+        await job.save();
     };
 
     const failJob = async id => {
         assertInitialized();
 
-        const job = await getJob(id);
+        const job = await jobRepository.byJobKey(prefixedKey(id));
 
         if (!job) {
             return;
@@ -156,7 +156,7 @@ module.exports = ({ jobRepository }) => {
         job.status = jobStateEnum.FAILED;
         job.completedAt = new Date().toISOString();
 
-        await jobRepository.update({ job_key: job.job_key }, job);
+        await job.save();
     };
 
     return {

@@ -21,7 +21,8 @@ module.exports = class {
                 index: true
             },
             job_key: {
-                type: String
+                type: String,
+                index: true
             },
             job_type: {
                 type: String

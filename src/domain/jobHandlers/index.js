@@ -11,15 +11,16 @@ const handleJob = async (messageData, { logger, jobScheduler }) => {
         case heavyJobInfo.jobPrefix: {
             jobScheduler.config(heavyJobInfo);
 
-            await jobScheduler.startJob();
+            await jobScheduler.startJob(job_id);
+
             const { timeMs } = messageData.data;
             try {
                 performHeavyTaskInMs(timeMs, { logger, jobScheduler });
             } catch (error) {
                 logger.error(error);
-                await jobScheduler.failJob();
+                await jobScheduler.failJob(job_id);
             }
-            await jobScheduler.completeJob();
+            await jobScheduler.completeJob(job_id);
             break;
         }
         default:
