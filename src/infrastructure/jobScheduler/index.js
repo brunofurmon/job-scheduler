@@ -126,6 +126,7 @@ module.exports = ({ jobRepository }) => {
         }
 
         existingJob = { ...existingJob, ...job };
+        existingJob.updated_at.push(new Date());
         await existingJob.save();
     };
 
@@ -139,7 +140,7 @@ module.exports = ({ jobRepository }) => {
         }
 
         job.status = jobStateEnum.COMPLETED;
-        job.completedAt = new Date().toISOString();
+        job.completed_at = new Date().toISOString();
 
         await job.save();
     };
