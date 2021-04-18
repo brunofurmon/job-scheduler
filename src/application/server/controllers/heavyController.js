@@ -47,11 +47,11 @@ module.exports = ({ logger, jobScheduler, messageBus }) => {
             ctx.status = NOT_FOUND;
             return;
         }
-        jobScheduler.cancelJob(jobId);
+        await jobScheduler.cancelJob(jobId);
 
         ctx.status = OK;
         ctx.body = {
-            job: `/jobs/heavy/${job.jobId}`
+            job: `/jobs/heavy/${jobId}`
         };
     };
 
