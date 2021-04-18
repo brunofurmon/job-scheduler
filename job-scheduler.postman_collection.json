@@ -1,0 +1,108 @@
+{
+    "info": {
+        "_postman_id": "2ad5ddb3-762d-4ceb-a0a3-a6c2e83cf1b1",
+        "name": "job-scheduler",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Jobs",
+            "item": [
+                {
+                    "name": "Schedule Heavy",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"timeMs\": 10000\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/jobs/heavy",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["jobs", "heavy"]
+                        },
+                        "description": "http://localhost:3000/jobs/heavy"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Read job status",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/jobs/heavy/{{job_id}}",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["jobs", "heavy", "{{job_id}}"]
+                        },
+                        "description": "GET http://localhost:3000/jobs/heavy/{{job_id}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Cancel job",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/jobs/heavy/{{job_id}}",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["jobs", "heavy", "{{job_id}}"]
+                        },
+                        "description": "POST http://localhost:3000/jobs/heavy/{{job_id}}"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Healthcheck",
+            "item": [
+                {
+                    "name": "Live",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/healthcheck",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["healthcheck"]
+                        },
+                        "description": "GETT http://localhost:3000/healthcheck"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Ready",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/readiness",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["readiness"]
+                        },
+                        "description": "GET http://localhost:3000/readiness"
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}
