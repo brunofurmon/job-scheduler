@@ -2,6 +2,9 @@
 
 An asynchronous HTTP job scheduler boilerplate
 
+## Article-based documentation
+https://medium.com/hurb-labs/job-scheduling-quick-and-slow-6651a1f8f370
+
 ## Dependencies
 
 -   [Docker](https://www.docker.com/docker-community)
